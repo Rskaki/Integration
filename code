@@ -47,32 +47,38 @@ dbExecute(base,
           constraint pk_idu primary key (id_utilisateur));")
 
 dbExecute(base,
-          "
-          create table commande ( 
-          id_commande bigint,
-          id_utilisateur bigint,
-          id_livraison bigint,
-          id_livre bigint,
-          moyen_paiement varchar(20),
-          quantite int,
-          constraint idc primary key (id_commande),
-          constraint idu foreign key (id_utilisateur) references utilisateur (id_utilisateur),
-          constraint idll foreign key (id_livraison) references livraison (id_livraison));")
-
-dbExecute(base,
           "create table livraison (
           id_livraison bigint,
           id_commande bigint,
-          sociÃ©tÃ©_livraison varchar(50),
-          pays varchar(50),
-          ville varchar(50),
-          date_commande date,
-          date_livraison date,
-          adresse varchar(255),
-          code_postal varchar(10),
-          constraint pk_idu primary key (id_livraison),
-          constraint fk_idc foreign key (id_commande) references commande (id_commande) );")
+          société_livraison varchar(255),
+          numéro_colis bigint,
+          constraint pk_idl primary key (id_livraison),
+          constraint fk_idc foreign key (id_commande) references detail_commande (id_commande) );")
 
+dbExecute(base,
+          "create table detail_commande (
+          id_commande bigint,
+          id_livraison bigint,
+          total_commande float,
+          moyen_paiement varchar(100),
+          adresse varchar(255),
+          code_postal bigint,
+          pays varchar(255),
+          ville varchar(255),
+          date_commande date,
+          constraint pk_idc primary key (id_commande),
+          constraint idl foreign key (id_livraison) references livraison (id_livraison));")
+
+dbExecute(base,
+          "
+          create table commande ( 
+          id_utilisateur bigint,
+          id_livre bigint,
+          id_commande bigint,
+          date_commande date,
+          constraint idu foreign key (id_utilisateur) references utilisateur (id_utilisateur),
+          constraint idl foreign key (id_livre) references livre (utilisateur),
+          constraint idc foreign key (id_commande) references detail_commande (id_commande));")
 
 
 dbExecute(base,
