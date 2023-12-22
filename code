@@ -1,0 +1,115 @@
+install.packages("RSQLite")
+install.packages("DBI")
+library(DBI)
+library(RSQLite)
+
+
+base = dbConnect(RSQLite::SQLite(), "Base.sqlite")
+
+dbExecute(base,
+          "Create table page (
+          id_page bigint,
+          url varchar(2083),
+          constraint pk_idp primary key (id_page));")
+
+dbExecute(base,
+          "Create table categorie (
+          id_categorie bigint,
+          id_page bigint,
+          nom_categ varchar(50),
+          constraint pk_idc primary key (id_categorie),
+          constraint fk_idp foreign key (id_page) references page (id_page));")
+          
+          
+dbExecute(base,
+          "Create table auteur (
+          id_auteur bigint,
+          nom varchar(255),
+          prenom varchar(255),
+          sexe varchar(20),
+          date_naissance date,
+          constraint pk_ida primary key (id_auteur));")
+          
+dbExecute(base,
+          "create table utilisateur (
+          id_utilisateur bigint,
+          adresse_ip varchar(255),
+          navigateur varchar(50),
+          os varchar(50),
+          date_connexion date,
+          url varchar(255),
+          nom varchar(50),
+          prenom varchar(50),
+          date_naiss date,
+          sexe varchar(20),
+          email varchar(255),
+          telephone bigint,
+          constraint pk_idu primary key (id_utilisateur));")
+
+dbExecute(base,
+          "
+          create table commande ( 
+          id_commande bigint,
+          id_utilisateur bigint,
+          id_livraison bigint,
+          id_livre bigint,
+          moyen_paiement varchar(20),
+          quantite int,
+          constraint idc primary key (id_commande),
+          constraint idu foreign key (id_utilisateur) references utilisateur (id_utilisateur),
+          constraint idll foreign key (id_livraison) references livraison (id_livraison));")
+
+dbExecute(base,
+          "create table livraison (
+          id_livraison bigint,
+          id_commande bigint,
+          sociÃ©tÃ©_livraison varchar(50),
+          pays varchar(50),
+          ville varchar(50),
+          date_commande date,
+          date_livraison date,
+          adresse varchar(255),
+          code_postal varchar(10),
+          constraint pk_idu primary key (id_livraison),
+          constraint fk_idc foreign key (id_commande) references commande (id_commande) );")
+
+
+
+dbExecute(base,
+          "
+          create table Livre ( 
+          id_livre bigint,
+          id_auteur bigint,
+          id_categorie bigint,
+          titre varchar(255),
+          editeur varchar(100),
+          Date_parution date,
+          poids float,
+          nb_page int,
+          distributeur varchar(50),
+          epaisseur float,
+          langue varchar(35),
+          dimension varchar (50),
+          prix float,
+          constraint idl primary key (id_livre),
+          constraint ida foreign key (id_auteur) references auteur (id_auteur),
+          constraint ida foreign key (id_categorie) references categorie (id_categorie));")
+
+
+
+dbExecute(base,
+          "
+          create table navigation ( 
+          id_utilisateur bigint,
+          id_page bigint,
+          date date,
+          constraint ul foreign key (id_utilisateur) references utilisateur (id_utilisateur),
+          constraint pa foreign key (id_page) references page (id_page));")
+          
+
+dbListTables(base)
+
+
+dbListFields(base, "utilisateur")
+
+dbListFields(base, "livraison")
