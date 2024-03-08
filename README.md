@@ -1,7 +1,8 @@
-Création et intégration de données dans un data warehouse.
+Creation and integration of data in a data warehouse.
 
-Gestion des données d'une entreprise e-commerce qui vend des livres.
-L'objectif est de comprendre et analyser le comportement des utilisateurs sur sa plateforme
+A company would like to understand the behavior of its users on its platform.
+The first step in this project is to create a relational schema. Next, the creation of the database. Then, to feed it, I'll generate data.
+Finally, I'd create a Power Bi report to enable the company to analyze user behavior on its platform.
 
 
 Schéma relationnel :
